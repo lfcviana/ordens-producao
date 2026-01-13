@@ -1,0 +1,273 @@
+    /** EXECUTA SCRITS PARA EMISSÃO DA PAGINA DE TRATAMENTO DOS DADOS **/
+
+function EXE_Dados_iniciais() {
+  DI_1_Pre_Formatacao();
+  DI_2_Primeiros_ajustes();
+  DI_3_Classificar_por_hora();  
+  DI_4_Pos_Formatacao();
+  DI_5_Pos_Formatacao_2();
+  DI_6_Redimensionar();
+  DI_7_DuplicaPaginas();
+};
+
+    /** EXECUTA SCRITS PARA EMISSÃO DA PAGINA DE TRATAMENTO DOS DADOS, QUANDO TODOS OS ITENS ESTÃO CANCELADOS **/
+
+
+function F1_EXE_Dados_iniciais_itens_cancelados() { //F1 = FALHA 1
+  F1_DI_1_Pre_Formatacao_cancelado();
+  DI_2_Primeiros_ajustes();
+  DI_3_Classificar_por_hora();  
+  DI_4_Pos_Formatacao();
+  DI_5_Pos_Formatacao_2();
+  DI_6_Redimensionar();
+  DI_7_DuplicaPaginas();
+};
+
+function F1_DI_1_Pre_Formatacao_cancelado() {
+  var spreadsheet = SpreadsheetApp.getActive();//exclui as 3 primeira linhas e colunas desnecessarias
+  spreadsheet.getRange('1:3').activate();
+  spreadsheet.getActiveSheet().deleteRows(spreadsheet.getActiveRange().getRow(), spreadsheet.getActiveRange().getNumRows());
+  
+  var sh = SpreadsheetApp.getActiveSheet(); //exclui linhas em branco
+  var maxRows = sh.getMaxRows(); 
+  var lastRow = sh.getLastRow();
+  sh.deleteRows(lastRow+1, maxRows-lastRow);
+  
+      /** Renomer Cancelado para Entrega, quando há falha**/
+  
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var r = ss.getRange("N:N");
+  var vlst = r.getValues();
+  var i, j, a, find, repl;
+  find = "Cancelado";
+  repl = "Entrega";
+  for (var i = 0; i < vlst.length; i++) {
+  for (var j = 0; j < vlst[i].length; j++) {
+    a = vlst[i][j];
+    if (a == find) vlst[i][j] = repl;
+  }
+  }
+  r.setValues(vlst);
+  
+     /** Renomer Aberto para Entrega**/
+  
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var r = ss.getRange("N:N");
+  var vlst = r.getValues();
+  var i, j, a, find, repl;
+  find = "Aberto";
+  repl = "Entrega";
+  for (var i = 0; i < vlst.length; i++) {
+  for (var j = 0; j < vlst[i].length; j++) {
+    a = vlst[i][j];
+    if (a == find) vlst[i][j] = repl;
+  }
+  }
+  r.setValues(vlst);
+  
+    /** Renomer Retirada balção para Balção**/
+  
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var r = ss.getRange("N:N");
+  var vlst = r.getValues();
+  var i, j, a, find, repl;
+  find = "Retirada balcão";
+  repl = "Balcão";
+  for (var i = 0; i < vlst.length; i++) {
+  for (var j = 0; j < vlst[i].length; j++) {
+    a = vlst[i][j];
+    if (a == find) vlst[i][j] = repl;
+  }
+  }
+  r.setValues(vlst);
+};
+
+
+
+// PROCESSO NORMAL DE TRATAMENTO DOS DADOS
+
+
+function DI_1_Pre_Formatacao() {
+  var spreadsheet = SpreadsheetApp.getActive();//exclui as 3 primeira linhas e colunas desnecessarias
+  spreadsheet.getRange('1:3').activate();
+  spreadsheet.getActiveSheet().deleteRows(spreadsheet.getActiveRange().getRow(), spreadsheet.getActiveRange().getNumRows());
+  
+  var sh = SpreadsheetApp.getActiveSheet(); //exclui linhas em branco
+  var maxRows = sh.getMaxRows(); 
+  var lastRow = sh.getLastRow();
+  sh.deleteRows(lastRow+1, maxRows-lastRow);
+  
+    /** Renomer Aberto para Entrega**/
+  
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var r = ss.getRange("N:N");
+  var vlst = r.getValues();
+  var i, j, a, find, repl;
+  find = "Aberto";
+  repl = "Entrega";
+  for (var i = 0; i < vlst.length; i++) {
+  for (var j = 0; j < vlst[i].length; j++) {
+    a = vlst[i][j];
+    if (a == find) vlst[i][j] = repl;
+  }
+  }
+  r.setValues(vlst);
+  
+    /** Renomer Retirada balção para Balção**/
+  
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var r = ss.getRange("N:N");
+  var vlst = r.getValues();
+  var i, j, a, find, repl;
+  find = "Retirada balcão";
+  repl = "Balcão";
+  for (var i = 0; i < vlst.length; i++) {
+  for (var j = 0; j < vlst[i].length; j++) {
+    a = vlst[i][j];
+    if (a == find) vlst[i][j] = repl;
+  }
+  }
+  r.setValues(vlst);
+};
+
+
+function DI_2_Primeiros_ajustes() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('L:L').activate();
+  spreadsheet.getActiveSheet().moveColumns(spreadsheet.getRange('L:L'), 15);
+  spreadsheet.getRange('M:M').activate();
+  spreadsheet.getActiveSheet().insertColumnsBefore(spreadsheet.getActiveRange().getColumn(), 1);
+  spreadsheet.getActiveRange().offset(0, 0, spreadsheet.getActiveRange().getNumRows(), 1).activate();
+  spreadsheet.getRange('M1').activate();
+  spreadsheet.getCurrentCell().setValue('Hora');
+  spreadsheet.getRange('H:H').activate();
+  spreadsheet.getActiveSheet().moveColumns(spreadsheet.getRange('H:H'), 13);
+  spreadsheet.getRange('G:G').activate();
+  spreadsheet.getActiveSheet().moveColumns(spreadsheet.getRange('G:G'), 12);
+  spreadsheet.getRange('C:C').activate();
+  spreadsheet.getActiveSheet().moveColumns(spreadsheet.getRange('C:C'), 11);
+  spreadsheet.getRange('B:B').activate();
+  spreadsheet.getActiveSheet().moveColumns(spreadsheet.getRange('B:B'), 10);
+  spreadsheet.getRange('P1').activate();
+  spreadsheet.getCurrentCell().setValue('Minus Retirada');
+  spreadsheet.getRange('Q1').activate();
+  spreadsheet.getCurrentCell().setValue('Minus Entrega');
+  spreadsheet.getRange('C:D').activate();
+  spreadsheet.getActiveSheet().moveColumns(spreadsheet.getRange('C:D'), 18);///////////
+  spreadsheet.getRange('N2').activate();
+  spreadsheet.getCurrentCell().setValue('01:00');
+  spreadsheet.getRange('N3:N').activate();
+  spreadsheet.getRange('N2').copyTo(spreadsheet.getActiveRange(), SpreadsheetApp.CopyPasteType.PASTE_NORMAL, false);
+
+  spreadsheet.getRange('O2').activate();
+  spreadsheet.getCurrentCell().setValue('02:00');
+  spreadsheet.getRange('O3:O').activate();
+  spreadsheet.getRange('O2').copyTo(spreadsheet.getActiveRange(), SpreadsheetApp.CopyPasteType.PASTE_NORMAL, false);
+
+  spreadsheet.getActiveRangeList().setNumberFormat('hh":"mm');
+
+  spreadsheet.getRange('K2').activate();
+  spreadsheet.getActiveRangeList().setNumberFormat('hh":"mm');
+  spreadsheet.getCurrentCell().setFormula('=IFs(L2="Cancelado";;L2="Balcão";MINUS(M2;N2);L2="Entrega";MINUS(M2;O2);N2="";)');
+  spreadsheet.getActiveRange().autoFill(spreadsheet.getRange('K2:K'), SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
+  spreadsheet.getRange('K2:K').activate();
+};
+
+function DI_3_Classificar_por_hora() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  var sheet = spreadsheet.getActiveSheet();
+  sheet.getRange(1, 1, sheet.getMaxRows(), sheet.getMaxColumns()).activate();
+  sheet = spreadsheet.getActiveSheet();
+  sheet.getRange(1, 1, sheet.getMaxRows(), sheet.getMaxColumns()).createFilter();
+  spreadsheet.getRange('K1').activate();
+  spreadsheet.getActiveSheet().getFilter().sort(11, true);
+  spreadsheet.getActiveSheet().getFilter().remove();
+};
+
+function DI_4_Pos_Formatacao() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  var sheet = spreadsheet.getActiveSheet();
+  sheet.getRange(1, 1, sheet.getMaxRows(), sheet.getMaxColumns()).activate();
+  spreadsheet.getRange('A:F').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('F1'));
+  spreadsheet.getActiveSheet().hideColumns(spreadsheet.getActiveRange().getColumn(), spreadsheet.getActiveRange().getNumColumns());
+  spreadsheet.getRange('G:G').activate();
+  spreadsheet.getRange('N:O').activate();
+  spreadsheet.getActiveSheet().hideColumns(spreadsheet.getActiveRange().getColumn(), spreadsheet.getActiveRange().getNumColumns());
+  spreadsheet.getRange('P:P').activate();
+  spreadsheet.getRange('R:AA').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('AA1'));
+  spreadsheet.getActiveSheet().deleteColumns(spreadsheet.getActiveRange().getColumn(), spreadsheet.getActiveRange().getNumColumns());
+  spreadsheet.getRange('G1:Q1').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('Q1'));
+  spreadsheet.getActiveRangeList().setBackground('#000000')
+  .setFontColor('#ffffff');
+  spreadsheet.getRange('G1').activate();
+  spreadsheet.getCurrentCell().setValue('Pedido');
+  spreadsheet.getRange('H1').activate();
+  spreadsheet.getCurrentCell().setValue('Cliente');
+  spreadsheet.getRange('I1').activate();
+  spreadsheet.getCurrentCell().setValue('Produto');
+  spreadsheet.getRange('J1').activate();
+  spreadsheet.getCurrentCell().setValue('Quant.');
+  spreadsheet.getRange('K1').activate();
+  spreadsheet.getActiveSheet().setName('Dados');
+  sheet.getRange(1, 1, sheet.getMaxRows(), sheet.getMaxColumns()).activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('J1'));
+  spreadsheet.getActiveSheet().autoResizeColumns(1, 17);
+  spreadsheet.getRange('H11').activate();
+  spreadsheet.getActiveSheet().setFrozenRows(0);
+  spreadsheet.getRange('G:G').activate();
+  spreadsheet.getActiveRangeList().setHorizontalAlignment('center');
+  spreadsheet.getRange('J:J').activate();
+  spreadsheet.getActiveRangeList().setHorizontalAlignment('center');
+  spreadsheet.getRange('K:L').activate();
+  spreadsheet.getActiveRangeList().setHorizontalAlignment('center');
+  spreadsheet.getRange('P:P').activate();
+  spreadsheet.getActiveRangeList().setHorizontalAlignment('center');
+  spreadsheet.getRange('M:M').activate();
+  spreadsheet.getActiveRangeList().setHorizontalAlignment('center');
+};
+
+
+function DI_5_Pos_Formatacao_2() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  var sheet = spreadsheet.getActiveSheet();
+  sheet.getRange(1, 1, sheet.getMaxRows(), sheet.getMaxColumns()).activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('J1'));
+  spreadsheet.getActiveRangeList().setVerticalAlignment('middle');
+  spreadsheet.getRange('L1').activate();
+  spreadsheet.getCurrentCell().setValue('Status');
+  spreadsheet.getRange('M1').activate();
+  spreadsheet.getCurrentCell().setValue('Hora Original');
+  spreadsheet.getRange('L2').activate();
+  sheet.getRange(1, 1, sheet.getMaxRows(), sheet.getMaxColumns()).activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('G1'));
+  spreadsheet.getActiveRangeList().setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.DOTTED);
+  spreadsheet.getRange('P1').activate();
+  spreadsheet.getCurrentCell().setValue('Tel');
+  spreadsheet.getRange('Q1').activate();
+  spreadsheet.getCurrentCell().setValue('End');
+}
+
+function DI_6_Redimensionar() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  var sheet = spreadsheet.getActiveSheet();
+  sheet.getRange(1, 1, sheet.getMaxRows(), sheet.getMaxColumns()).activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('G1'));
+  spreadsheet.getActiveSheet().autoResizeColumns(1, 17);
+};
+
+function DI_7_DuplicaPaginas() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('G1:Q').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('J1'));
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getActiveSheet().setName('ENC DIA');
+//  spreadsheet.duplicateActiveSheet(); // NOVA PAGINA PARA ENTREGAS
+//  spreadsheet.getActiveSheet().setName('ENT');  
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getActiveSheet().setName('TOR');
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('ENC DIA'), true);
+};
+
