@@ -1,0 +1,250 @@
+// EXECUTA SCRITS PARA OCULTAR PAGINAS DE ORDENS DE PRODUÇÃO SEM ITENS //
+
+function EXE_SE_ZERO() {
+  CONTAGEMSETORES();
+};
+
+// TRAS OS VALORES DE ITENS A PRODUZUIR EM CASA SUBSETOR //
+
+function CONTAGEMSETORES() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('G1').activate();
+  spreadsheet.insertSheet(2);
+  spreadsheet.getActiveSheet().setName('SEZERO');
+  spreadsheet.getRange('A1').activate();
+  spreadsheet.getCurrentCell().setFormula('=E0!G1');
+  spreadsheet.getRange('A2').activate();
+  spreadsheet.getCurrentCell().setFormula('=E1!G1');
+  spreadsheet.getRange('A3').activate();
+  spreadsheet.getCurrentCell().setFormula('=E2!G1');
+  spreadsheet.getRange('A4').activate();
+  spreadsheet.getCurrentCell().setFormula('=E3!G1');
+  spreadsheet.getRange('A5').activate();
+  spreadsheet.getCurrentCell().setFormula('=E4!G1');
+  spreadsheet.getRange('A6').activate();
+  spreadsheet.getCurrentCell().setFormula('=E5!G1');
+  spreadsheet.getRange('A7').activate();
+  spreadsheet.getCurrentCell().setFormula('=E6!G1');
+  spreadsheet.getRange('A8').activate();
+  spreadsheet.getCurrentCell().setFormula('=E7!G1');
+  spreadsheet.getRange('A9').activate();
+  spreadsheet.getCurrentCell().setFormula('=EF7!G1');  
+  spreadsheet.getRange('A10').activate();
+  spreadsheet.getCurrentCell().setFormula('=EN7!G1');
+  spreadsheet.getRange('A11').activate();
+  spreadsheet.getCurrentCell().setFormula('=E8!G1');
+  spreadsheet.getRange('A12').activate();
+  spreadsheet.getCurrentCell().setFormula('=E9!G1');
+  spreadsheet.getRange('A13').activate();
+  spreadsheet.getCurrentCell().setFormula('=\'ENC DIA\'!G2');
+  spreadsheet.getRange('A14').activate();
+  spreadsheet.getCurrentCell().setValue('X');
+};
+
+function onSelectionChange(e) {
+      Ocultar_Zero_E0(e);
+      Ocultar_Zero_E1(e);
+      Ocultar_Zero_E2(e);
+      Ocultar_Zero_E3(e);
+      Ocultar_Zero_E4(e);
+      Ocultar_Zero_E5(e);
+      Ocultar_Zero_E6(e);
+      Ocultar_Zero_E7(e);
+      Ocultar_Zero_EF7(e); 
+      Ocultar_Zero_EN7(e);
+      Ocultar_Zero_E8(e);
+      Ocultar_Zero_E9(e);    
+      Ocultar_Zero_ENT(e);    
+      Ocultar_Se_Zero(e);
+    
+    }
+
+
+function Ocultar_Zero_E0(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') { //SE NA PAGINA SEZZERO
+   var activeCell = ss.getRange("A1"); // FOR ENCONTRADA NA CELULAR A1
+   if (activeCell.getValue() == "0") { // O VALOR 0
+  var spreadsheet = SpreadsheetApp.getActive(); //FAÇA TAL COISA
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('E0'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+     }
+   }
+ }
+
+function Ocultar_Zero_E1(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') {
+   var activeCell = ss.getRange("A2");
+     if (activeCell.getValue() == "0") {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('E1'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+     }
+   }
+ }
+
+function Ocultar_Zero_E2(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') {
+   var activeCell = ss.getRange("A3");
+     if (activeCell.getValue() == "0") {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('E2'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+     }
+   }
+ }
+
+function Ocultar_Zero_E3(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') {
+   var activeCell = ss.getRange("A4");
+     if (activeCell.getValue() == "0") {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('E3'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+     }
+   }
+ }
+
+function Ocultar_Zero_E4(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') {
+   var activeCell = ss.getRange("A5");
+     if (activeCell.getValue() == "0") {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('E4'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+     }
+   }
+ }
+
+function Ocultar_Zero_E5(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') {
+   var activeCell = ss.getRange("A6");
+     if (activeCell.getValue() == "0") {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('E5'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+     }
+   }
+ }
+
+function Ocultar_Zero_E6(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') {
+   var activeCell = ss.getRange("A7");
+     if (activeCell.getValue() == "0") {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('E6'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+     }
+   }
+ }
+
+function Ocultar_Zero_E7(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') {
+   var activeCell = ss.getRange("A8");
+     if (activeCell.getValue() == "0") {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('E7'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+     }
+   }
+ }
+
+ 
+function Ocultar_Zero_EF7(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') {
+   var activeCell = ss.getRange("A9");
+     if (activeCell.getValue() == "0") {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('EF7'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+     }
+   }
+ }
+
+function Ocultar_Zero_EN7(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') {
+   var activeCell = ss.getRange("A10");
+     if (activeCell.getValue() == "0") {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('EN7'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+     }
+   }
+ }
+
+function Ocultar_Zero_E8(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') {
+   var activeCell = ss.getRange("A11");
+     if (activeCell.getValue() == "0") {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('E8'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+     }
+   }
+ }
+
+function Ocultar_Zero_E9(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') {
+   var activeCell = ss.getRange("A12");
+     if (activeCell.getValue() == "0") {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('E9'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+     }
+   }
+ }
+
+ function Ocultar_Zero_ENT(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') {
+   var activeCell = ss.getRange("A13");
+     if (activeCell.getValue() == "0") {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('ENT DIA'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+     }
+   }
+ }
+
+function Ocultar_Se_Zero(e) {
+
+ var ss = e.range.getSheet();
+ if (ss.getName() === 'SEZERO') {
+   var activeCell = ss.getRange("A14");
+     if (activeCell.getValue() == "X") {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('SEZERO'), true);
+  spreadsheet.deleteActiveSheet();
+ 
+   var html = HtmlService.createHtmlOutputFromFile('Completo.html')
+      .setTitle('Operação concluida')
+      .setWidth(300);
+   SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
+      .showSidebar(html);
+     }
+    }
+ }
