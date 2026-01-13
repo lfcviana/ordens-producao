@@ -1,0 +1,221 @@
+// EXECUTA SCRITS PARA CRIAR UMA LISTA COM TODOS OS PEDIDOS DO DIA //
+
+function EXE_Encomendas_Dia() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('ENC DIA'), true);
+  EXE_ENCD_1_Hora_filtro();
+  EXE_ENCD_2_Endereco_de_entrega();
+  EXE_ENCD_3_Formato_encomendas_do_dia();
+  EXE_ENCD_4_Cabecalho();
+  EXE_ENCD_5_Emissao_datas();
+  EXE_ENCD_6_pos_formatacao_encomendas_dia();
+};
+
+// EXECUTA SCRITS PARA CRIAR UMA LISTA COM TODOS OS PEDIDOS DO DIA, INCLUE MUDOU O STATUS DE TODOS OS PEDIDOS //
+
+function F1_EXE_Encomendas_Dia_cancelado() { //F1 = FALHA 1
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('ENC DIA'), true);
+  EXE_ENCD_1_Hora_filtro();
+  EXE_ENCD_2_Endereco_de_entrega();
+  EXE_ENCD_3_Formato_encomendas_do_dia();
+  EXE_ENCD_4_Cabecalho();
+  EXE_ENCD_5_Emissao_datas();
+  EXE_ENCD_6_pos_formatacao_encomendas_dia();
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('L2:P2').activate();
+  spreadsheet.getCurrentCell().setValue('ATENÇÃO:');
+  spreadsheet.getActiveRangeList().setHorizontalAlignment('right');
+  spreadsheet.getRange('Q2').activate();
+  spreadsheet.getCurrentCell().setValue('TODAS AS ENCOMENDAS TIVERAM SEU STATUS ALTERADO!');
+  spreadsheet.getRange('L2:Q2').activate();
+  spreadsheet.getActiveRangeList().setFontColor('#ffffff')
+  .setBackground('#000000');
+};
+
+//////// FIM DOS EXECUTORES
+
+
+
+function EXE_ENCD_1_Hora_filtro() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('G1:Q').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('M1'));
+  spreadsheet.getRange('G1:Q').createFilter();
+  spreadsheet.getRange('M1').activate();
+  spreadsheet.getActiveSheet().getFilter().sort(13, true);
+  spreadsheet.getActiveSheet().getFilter().remove();
+};
+
+function EXE_ENCD_2_Endereco_de_entrega() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('Q:Q').activate();
+  spreadsheet.getActiveSheet().insertColumnsBefore(spreadsheet.getActiveRange().getColumn(), 1);
+  spreadsheet.getActiveRange().offset(0, 0, spreadsheet.getActiveRange().getNumRows(), 1).activate();
+  spreadsheet.getRange('Q1').activate();
+  spreadsheet.getCurrentCell().setValue('Endereço de entrega');
+  spreadsheet.getRange('Q2').activate();
+  spreadsheet.getCurrentCell().setFormula('=IFs(L2="Cancelado";;L2="Balcão";;L2="Entrega";R2)');
+  spreadsheet.getActiveRange().autoFill(spreadsheet.getRange('Q2:Q1000'), SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
+  spreadsheet.getRange('Q2:Q1000').activate();
+};
+
+function EXE_ENCD_3_Formato_encomendas_do_dia() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  var sheet = spreadsheet.getActiveSheet();
+  sheet.getRange(1, 1, sheet.getMaxRows(), sheet.getMaxColumns()).activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('G1'));
+  spreadsheet.getActiveRange().offset(1, 0, spreadsheet.getActiveRange().getNumRows() - 1).activate();
+  spreadsheet.getActiveRange().removeDuplicates([7]).activate();
+  spreadsheet.getRange('I:I').activate();
+  spreadsheet.getActiveSheet().hideColumns(spreadsheet.getActiveRange().getColumn(), spreadsheet.getActiveRange().getNumColumns());
+  spreadsheet.getRange('J:J').activate();
+  spreadsheet.getActiveSheet().hideColumns(spreadsheet.getActiveRange().getColumn(), spreadsheet.getActiveRange().getNumColumns());
+  spreadsheet.getRange('K:K').activate();
+  spreadsheet.getRange('M1').activate();
+  spreadsheet.getCurrentCell().setValue('Hora');
+  spreadsheet.getRange('K1').activate();
+  spreadsheet.getCurrentCell().setValue('Produção');
+  spreadsheet.getRange('K:K').activate();
+  spreadsheet.getActiveSheet().hideColumns(spreadsheet.getActiveRange().getColumn(), spreadsheet.getActiveRange().getNumColumns());
+  spreadsheet.getRange('L:L').activate();
+  spreadsheet.getRange('R:R').activate();
+  spreadsheet.getActiveSheet().hideColumns(spreadsheet.getActiveRange().getColumn(), spreadsheet.getActiveRange().getNumColumns());
+  spreadsheet.getRange('Q:Q').activate();
+  
+  var sh = SpreadsheetApp.getActiveSheet(); //exclui linhas em branco
+  var maxRows = sh.getMaxRows(); 
+  var lastRow = sh.getLastRow();
+  sh.deleteRows(lastRow+1, maxRows-lastRow);
+  
+};
+
+function EXE_ENCD_4_Cabecalho() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('1:3').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('G3'));
+  spreadsheet.getActiveSheet().insertRowsBefore(spreadsheet.getActiveRange().getRow(), 3);
+  spreadsheet.getActiveRange().offset(0, 0, 3, spreadsheet.getActiveRange().getNumColumns()).activate();
+  spreadsheet.getRange('1:3').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('G1'));
+  spreadsheet.getActiveRangeList().setBackground('#d9d9d9');
+  spreadsheet.getRange('2:2').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('G2'));
+  spreadsheet.getActiveRangeList().setBackground('#cccccc');
+  spreadsheet.getRange('L1:P1').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('P1'));
+  spreadsheet.getActiveRange().mergeAcross();
+  spreadsheet.getRange('L3:P3').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('P3'));
+  spreadsheet.getActiveRange().mergeAcross();
+  spreadsheet.getRange('L2:P2').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('P2'));
+  spreadsheet.getActiveRange().mergeAcross();
+  spreadsheet.getRange('G1').activate();
+  spreadsheet.getCurrentCell().setFormula('=COUNTIF(L5:L; "Balcão")');
+  spreadsheet.getRange('G2').activate();
+  spreadsheet.getCurrentCell().setFormula('=COUNTIF(L5:L; "Entrega")');
+  spreadsheet.getRange('G3').activate();
+  spreadsheet.getCurrentCell().setFormula('=COUNTIF(L5:L; "Cancelado")');
+  spreadsheet.getRange('H1').activate();
+  spreadsheet.getCurrentCell().setValue('Retirada(s)');
+  spreadsheet.getRange('H2').activate();
+  spreadsheet.getCurrentCell().setValue('Entrega(s)');
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.getCurrentCell().setValue('Cancelada(s)');
+  spreadsheet.getRange('L1:P1').activate();
+  spreadsheet.getCurrentCell().setValue('ENCOMENDAS DO DIA: ');
+  spreadsheet.getActiveRangeList().setHorizontalAlignment('right');
+  spreadsheet.getRange('L3:P3').activate();
+  spreadsheet.getCurrentCell().setValue('Emitido em:');
+  spreadsheet.getActiveRangeList().setHorizontalAlignment('right');
+  spreadsheet.getRange('Q1').activate();
+  spreadsheet.getCurrentCell().setFormula('=E5');
+  spreadsheet.getActiveRangeList().setHorizontalAlignment('left');
+  spreadsheet.getRange('1:3').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('G1'));
+  spreadsheet.getActiveRangeList().setFontColor('#000000');
+  spreadsheet.getRange('Q1').activate();
+  spreadsheet.getActiveRangeList().setNumberFormat('dd/MM/yyyy');
+};
+
+  /** Definir a data de emissao do relatorio **/ 
+function EXE_ENCD_5_Emissao_datas() {   
+  data_emissao_1();
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('5:5').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('G5'));
+  spreadsheet.getActiveSheet().deleteRows(spreadsheet.getActiveRange().getRow(), spreadsheet.getActiveRange().getNumRows());
+  data_emissao_2();
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('4:4').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('G4'));
+  spreadsheet.getActiveSheet().deleteRows(spreadsheet.getActiveRange().getRow(), spreadsheet.getActiveRange().getNumRows());
+}
+
+function data_emissao_1() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('4:4').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('G4'));
+  spreadsheet.getActiveSheet().insertRowsBefore(spreadsheet.getActiveRange().getRow(), 1);
+  spreadsheet.getActiveRange().offset(0, 0, 1, spreadsheet.getActiveRange().getNumColumns()).activate();
+  spreadsheet.getRange('G4').activate();
+  spreadsheet.getCurrentCell().setFormula('=now()');
+  spreadsheet.getRange('4:4').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('G4'));
+  spreadsheet.getActiveSheet().insertRowsAfter(spreadsheet.getActiveRange().getLastRow(), 1);
+  spreadsheet.getActiveRange().offset(spreadsheet.getActiveRange().getNumRows(), 0, 1, spreadsheet.getActiveRange().getNumColumns()).activate();
+};
+
+function data_emissao_2() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('Q3').activate();
+  spreadsheet.getRange('G4').copyTo(spreadsheet.getActiveRange(), SpreadsheetApp.CopyPasteType.PASTE_VALUES, false);
+  spreadsheet.getActiveRangeList().setNumberFormat('dd/MM/yyyy HH:mm:ss');
+  spreadsheet.getRange('M3:P3').activate();
+  spreadsheet.getActiveRangeList().setHorizontalAlignment('right');
+  spreadsheet.getRange('Q3').activate();
+  spreadsheet.getActiveRangeList().setHorizontalAlignment('left')
+  .setNumberFormat('dd"/"mm"/"yyyy" "hh":"mm');
+};
+
+function EXE_ENCD_6_pos_formatacao_encomendas_dia() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('G3:H3').activate();
+  spreadsheet.getActiveRangeList().setBorder(null, null, null, null, true, null, '#d9d9d9', SpreadsheetApp.BorderStyle.SOLID);
+  spreadsheet.getRange('L3:Q3').activate();
+  spreadsheet.getActiveRangeList().setBorder(null, null, null, null, true, null, '#d9d9d9', SpreadsheetApp.BorderStyle.SOLID);
+  spreadsheet.getRange('L1:Q1').activate();
+  spreadsheet.getActiveRangeList().setBorder(null, null, null, null, true, null, '#d9d9d9', SpreadsheetApp.BorderStyle.SOLID);
+  spreadsheet.getRange('G1:H1').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('H1'));
+  spreadsheet.getActiveRangeList().setBorder(null, null, null, null, true, null, '#d9d9d9', SpreadsheetApp.BorderStyle.SOLID);
+  spreadsheet.getRange('G2:H2').activate();
+  spreadsheet.getActiveRangeList().setBorder(null, null, null, null, true, null, '#cccccc', SpreadsheetApp.BorderStyle.SOLID);
+  spreadsheet.getRange('L2:Q2').activate();
+  spreadsheet.getActiveRangeList().setBorder(null, null, null, null, true, null, '#cccccc', SpreadsheetApp.BorderStyle.SOLID);
+  spreadsheet.getRange('G1:Q3').activate();
+
+  spreadsheet.getRange('G:G').activate();
+  spreadsheet.getActiveSheet().setColumnWidth(7, 90);
+  spreadsheet.getRange('H:H').activate();
+  spreadsheet.getActiveSheet().setColumnWidth(8, 300);
+  spreadsheet.getRange('L:L').activate();
+  spreadsheet.getActiveSheet().setColumnWidth(12, 100);
+  spreadsheet.getRange('M:M').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('L1'));
+  spreadsheet.getActiveSheet().setColumnWidth(13, 82);
+  spreadsheet.getRange('P:P').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('L1'));
+  spreadsheet.getActiveSheet().setColumnWidth(16, 94);
+  spreadsheet.getRange('Q:Q').activate();
+  spreadsheet.getActiveSheet().setColumnWidth(17, 600);
+  
+  spreadsheet.getRange('1:3').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('G1'));
+  spreadsheet.getActiveRangeList().setFontWeight('bold');
+  var sheet = spreadsheet.getActiveSheet();
+  sheet.getRange(1, 1, sheet.getMaxRows(), sheet.getMaxColumns()).activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('G1'));
+  spreadsheet.getActiveRangeList().setFontSize(12);
+};
