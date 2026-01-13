@@ -1,0 +1,215 @@
+// EXPORTAR TODO O RELATORIO 
+
+function aguarde_pdf() {
+  const htmlOutput = HtmlService
+    .createHtmlOutput('<center><h2 style="font-family: Arial;">salvando....</h2></center>')
+     .setWidth(500)
+    .setHeight(100)
+  SpreadsheetApp.getUi().showModalDialog(htmlOutput, 'Aguarde')
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('Dados'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+}
+
+function _exportBlob(blob, fileName,date) {
+  date = Utilities.formatDate(new Date(), "GMT-3", "yyyy-MM-dd HH:mm");
+  blob = blob.setName("Ordens de produção: " + date)
+  var pdfFile = DriveApp.getFolderById("1SQuFk5cmDEBG4s0gs8Qiyw9M3MsGpm7H").createFile(blob); // SALVA NUMA PASTA ESPECIFICA
+  
+  // Display a modal dialog box with custom HtmlService content.
+  const htmlOutput = HtmlService
+    .createHtmlOutput('<center><h2 style="font-family: Arial;">Clique na data para abrir as ordens de produção: <a href="' + pdfFile.getUrl() + '" target="_blank">' + date + '</a></h2></center>')
+     .setWidth(500)
+    .setHeight(100)
+  SpreadsheetApp.getUi().showModalDialog(htmlOutput, 'Salvo com sucesso')
+}
+
+
+function EXE_exportAsPDF() {
+  aguarde_pdf();
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet()
+  var blob = _getAsBlob(spreadsheet.getUrl())
+  _exportBlob(blob, spreadsheet.getName())
+ 
+}
+
+function _getAsBlob(url, sheet, range) {
+  var rangeParam = ''
+  var sheetParam = ''
+  if (range) {
+    rangeParam =
+      '&r1=' + (range.getRow() - 1)
+      + '&r2=' + range.getLastRow()
+      + '&c1=' + (range.getColumn() - 1)
+      + '&c2=' + range.getLastColumn()
+  }
+  if (sheet) {
+    sheetParam = '&gid=' + sheet.getSheetId()
+  }
+  var exportUrl = url.replace(/\/edit.*$/, '')
+      + '/export?exportFormat=pdf&format=pdf'
+      + '&size=A4'
+      + '&portrait=true'
+      + '&fitw=true'       
+      + '&top_margin=0.5'              
+      + '&bottom_margin=0.5'          
+      + '&left_margin=0.5'             
+      + '&right_margin=0.5'           
+      + '&sheetnames=false&printtitle=false'
+      + '&pagenum=RIGHT'
+      + '&gridlines=true'
+      + '&fzr=FALSE'      
+      + sheetParam
+      + rangeParam
+      
+  Logger.log('exportUrl=' + exportUrl)
+  var response = UrlFetchApp.fetch(exportUrl, {
+    headers: { 
+      Authorization: 'Bearer ' +  ScriptApp.getOAuthToken(),
+    },
+  })
+  
+  return response.getBlob()
+}
+ 
+////////// FIM DE IMPORTAR TODO O RELATORIO
+
+////////// EXPORTAR PARA PDF A LISTA DE ENCOMENDAS 
+
+function _exportBlob2(blob, fileName,date) {
+  date = Utilities.formatDate(new Date(), "GMT-3", "yyyy-MM-dd HH:mm");
+  blob = blob.setName("Lista de encomendas: " + date)
+  var pdfFile = DriveApp.getFolderById("1Le25TK54eHPD2DrRr-1sdcKgQiEbMzvD").createFile(blob); // SALVA NUMA PASTA ESPECIFICA
+  
+  // Display a modal dialog box with custom HtmlService content.
+  const htmlOutput = HtmlService
+    .createHtmlOutput('<center><h2 style="font-family: Arial;">Clique na data para abrir a lista de encomendas: <a href="' + pdfFile.getUrl() + '" target="_blank">' + date + '</a></h2></center>')
+     .setWidth(500)
+    .setHeight(100)
+  SpreadsheetApp.getUi().showModalDialog(htmlOutput, 'Salvo com sucesso')
+}
+
+function _getAsBlob2(url, sheet, range) {
+  var rangeParam = ''
+  var sheetParam = ''
+  if (range) {
+    rangeParam =
+      '&r1=' + (range.getRow() - 1)
+      + '&r2=' + range.getLastRow()
+      + '&c1=' + (range.getColumn() - 1)
+      + '&c2=' + range.getLastColumn()
+  }
+  if (sheet) {
+    sheetParam = '&gid=' + sheet.getSheetId()
+  }
+  var exportUrl = url.replace(/\/edit.*$/, '')
+      + '/export?exportFormat=pdf&format=pdf'
+      + '&size=A4'
+      + '&portrait=false'
+      + '&fitw=true'       
+      + '&top_margin=0.7'              
+      + '&bottom_margin=0.7'          
+      + '&left_margin=0.7'             
+      + '&right_margin=0.7'           
+      + '&sheetnames=false&printtitle=false'
+      + '&pagenum=RIGHT'
+      + '&gridlines=true'
+      + '&fzr=FALSE'      
+      + sheetParam
+      + rangeParam
+      
+  Logger.log('exportUrl=' + exportUrl)
+  var response = UrlFetchApp.fetch(exportUrl, {
+    headers: { 
+      Authorization: 'Bearer ' +  ScriptApp.getOAuthToken(),
+    },
+  })
+  
+  return response.getBlob()
+}
+
+
+function EXE_exportCurrentSheetAsPDF2() {
+  aguarde_pdf();
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet()
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('ENC DIA'), true);
+  var currentSheet = SpreadsheetApp.getActiveSheet()  
+  
+  var blob = _getAsBlob2(spreadsheet.getUrl(), currentSheet)
+  _exportBlob2(blob, currentSheet.getName())
+}
+
+// FIM DA LISTA DE ENCOMENDAS
+
+// EXPORTAR somente os setores
+
+function _exportBlob3(blob, fileName,date) {
+  date = Utilities.formatDate(new Date(), "GMT-3", "yyyy-MM-dd HH:mm");
+  blob = blob.setName("Ordens de produção setorial: " + date)
+  var pdfFile = DriveApp.getFolderById("1xNDAq275IWZxv4g_gCFggHwh1n0mEqLC").createFile(blob); // SALVA NUMA PASTA ESPECIFICA
+  
+  // Display a modal dialog box with custom HtmlService content.
+  const htmlOutput = HtmlService
+    .createHtmlOutput('<center><h2 style="font-family: Arial;">Clique na data para abrir as ordens de produção setoriais: <a href="' + pdfFile.getUrl() + '" target="_blank">' + date + '</a></h2></center>')
+     .setWidth(500)
+    .setHeight(100)
+  SpreadsheetApp.getUi().showModalDialog(htmlOutput, 'Salvo com sucesso')
+}
+
+
+
+function EXE_exportAsPDF_setores() {
+  aguarde_pdf();
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet()
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('ENC DIA'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+  var blob = _getAsBlob(spreadsheet.getUrl())
+  _exportBlob3(blob, spreadsheet.getName())
+  
+  spreadsheet.getSheetByName('ENC DIA').showSheet()
+  .activate();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('ENC DIA'), true);
+ 
+}
+
+function _getAsBlob3(url, sheet, range) {
+  var rangeParam = ''
+  var sheetParam = ''
+  if (range) {
+    rangeParam =
+      '&r1=' + (range.getRow() - 1)
+      + '&r2=' + range.getLastRow()
+      + '&c1=' + (range.getColumn() - 1)
+      + '&c2=' + range.getLastColumn()
+  }
+  if (sheet) {
+    sheetParam = '&gid=' + sheet.getSheetId()
+  }
+  var exportUrl = url.replace(/\/edit.*$/, '')
+      + '/export?exportFormat=pdf&format=pdf'
+      + '&size=A4'
+      + '&portrait=true'
+      + '&fitw=true'       
+      + '&top_margin=0.7'              
+      + '&bottom_margin=0.7'          
+      + '&left_margin=0.7'             
+      + '&right_margin=0.7'           
+      + '&sheetnames=false&printtitle=false'
+      + '&pagenum=RIGHT'
+      + '&gridlines=true'
+      + '&fzr=FALSE'      
+      + sheetParam
+      + rangeParam
+      
+  Logger.log('exportUrl=' + exportUrl)
+  var response = UrlFetchApp.fetch(exportUrl, {
+    headers: { 
+      Authorization: 'Bearer ' +  ScriptApp.getOAuthToken(),
+    },
+  })
+  
+  return response.getBlob()
+}
+ 
+////////// FIM DE IMPORTAR somentes os setores
+
