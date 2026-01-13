@@ -1,0 +1,182 @@
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  // Or DocumentApp or FormApp.
+  ui.createMenu('Morada Mineira')
+    .addItem('1 - Importar o relatorio da Totvs', 'abrirtotvs') 
+    .addItem('2 - Gerar as ordens de produção', 'Executar')    
+              .addSubMenu(ui.createMenu('3 - Salvar e imprimir')
+                .addItem('Salvar tudo em PDF', 'EXE_exportAsPDF')
+                .addItem('Salvar a lista do dia em PDF', 'EXE_exportCurrentSheetAsPDF2')  
+                .addItem('Salvar os setores em PDF', 'EXE_exportAsPDF_setores'))      
+    .addSeparator() 
+              .addSubMenu(ui.createMenu('4 - Correção de falhas')                
+              .addItem('Quando todos os itens estão cancelados', 'Executar_todos_cancelados')) 
+    .addSeparator() 
+              .addSubMenu(ui.createMenu('5 - Correção de status do pedido')                
+              .addItem('1 - Filtra e selecionar pedidos', 'FAL_Mudar_Status')
+              .addItem('2 - Mudar para cancelado', 'FAL_Cancelar_pedidos'))   
+    .addSeparator()  
+    .addItem('6 - Como importar o CSV e usar?', 'Janela_ajuda')  
+    .addSeparator()
+              .addSubMenu(ui.createMenu('Ocultar páginas')
+                  .addItem('E0 - PADARIA', 'FUN_0_Ocultar_pagina')       
+                  .addItem('E1 - TORTAS', 'FUN_1_Ocultar_pagina')
+                  .addItem('E2 - BOLOS', 'FUN_2_Ocultar_pagina')
+                  .addItem('E3 - TORTA SEM LEITE', 'FUN_3_Ocultar_pagina')
+                  .addItem('E4 - DOCES ESPECIAIS' , 'FUN_4_Ocultar_pagina')        
+                  .addItem('E5 - DOCES SIMPLES', 'FUN_5_Ocultar_pagina')        
+                  .addItem('E6 - SALGADOS FRITOS', 'FUN_6_Ocultar_pagina')        
+                  .addItem('E7 - EMPADA', 'FUN_7_Ocultar_pagina')        
+                  .addItem('EN7 - EMPADAO', 'FUN_N7_Ocultar_pagina')                   
+                  .addItem('E8 - MASSA DE ESFIHA', 'FUN_8_Ocultar_pagina')             
+                  .addItem('E9 - CASAMENTO', 'FUN_9_Ocultar_pagina'))
+     .addItem('Ver relatórios salvos', 'abrirdrive')   
+     .addItem('PRE TRATAMENTO', 'TRATAMENTO') 
+    .addToUi();
+}
+
+
+// EXECUTA TODOS EXECUTORES DE SCRITS PARA GERAR TODAS AS PAGINAS //
+
+
+function Executar() {
+  aguarde();
+  TRATAMENTO();
+  EXE_Dados_iniciais();
+  EXE_Encomendas_Dia();
+  EXE_ENTREGAS_DO_DIA_VALOR();
+  EXE_TOR();
+  EXE_Ordens_setoriais();
+  ocultando_paginas(); // janela popup
+  EXE_SE_ZERO();
+  EXE_Ocultar_paginas();
+  SALVAR();
+  ativsezero();
+  SUCESSO();
+};
+
+// EXECUTA TODOS EXECUTORES DE SCRITS PARA GERAR TODAS AS PAGINAS, QUANDO O STATUS ESTÃO TODOS CANCELADOS //
+
+function Executar_todos_cancelados() {
+  aguarde();
+  TRATAMENTO();
+  F1_EXE_Dados_iniciais_itens_cancelados();
+  F1_EXE_Encomendas_Dia_cancelado();
+  //EXE_ENTREGAS_DO_DIA_VALOR(); //VERIFICAR
+  F1_EXE_TOR_ITENS_CANCELADOS();
+  EXE_Ordens_setoriais();
+  ocultando_paginas();
+  EXE_SE_ZERO();
+  EXE_Ocultar_paginas();
+  SALVAR();
+  ativsezero();  
+  CONCLUIDO_Falha_1();  
+};
+
+// EXECUTORES ADICIONAIS //
+
+function ativsezero() {
+  var spreadsheet = SpreadsheetApp.getActive();
+//  spreadsheet.getRange('C1:C2').activate();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('SEZERO'), true);
+//  spreadsheet.getRange('C1:C2').activate();
+};
+
+function EXE_Ocultar_paginas() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('Dados'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('TOR'), true);
+  spreadsheet.getActiveSheet().hideSheet();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('ENC DIA'), true);  
+};
+
+
+
+function abrirdrive() { //abrir pagina da web
+  var js = " \
+    <script> \
+      window.open('https://drive.google.com/drive/folders/1qI_AuUBq-UGMndQ005sIR0ZSAIVuoyuq'); \
+      google.script.host.close(); \
+    </script> \
+  ";
+  var html = HtmlService.createHtmlOutput(js)
+    .setHeight(10)
+    .setWidth(300);
+  SpreadsheetApp.getUi().showModalDialog(html, 'Abrindo pasta no drive.'); // If you use this on Spreadsheet
+}
+
+/************* FIM DOS EXECUTORESS *************/
+
+
+
+
+// JANELAS DE COMFIRMAÇÃO DE SUCESSO, PARA PODER SALVAR E IMPRIMIR //
+
+function SALVAR() {
+  var html = HtmlService.createHtmlOutputFromFile('AV-SALVAR')
+      .setTitle('Operação concluida')
+      .setWidth(400);
+  SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
+      .showSidebar(html);
+}
+
+function SUCESSO() {
+  var html = HtmlService.createHtmlOutputFromFile('AV-SUCESSO')
+      .setWidth(600)
+      .setHeight(90);
+  SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
+      .showModalDialog(html, 'Operação concluida');
+}
+
+function CONCLUIDO_Falha_1() {
+  var html = HtmlService.createHtmlOutputFromFile('AV-FALHA')
+      .setWidth(600)
+      .setHeight(185);
+  SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
+      .showModalDialog(html, 'Operação concluida');
+}
+
+function aguarde() {
+  const htmlOutput = HtmlService
+    .createHtmlOutput('')
+     .setWidth(500)
+    .setHeight(1)
+  SpreadsheetApp.getUi().showModalDialog(htmlOutput, 'gerando o relatório....')
+}
+
+function ocultando_paginas() {
+  const htmlOutput = HtmlService
+    .createHtmlOutput('')
+     .setWidth(500)
+     .setHeight(1)
+  SpreadsheetApp.getUi().showModalDialog(htmlOutput, 'ocultando páginas do relatório....')
+}
+
+function nao_usado() { //naousado
+  const htmlOutput = HtmlService
+    .createHtmlOutput('<center><h2 style="font-family: Arial;">ocultando páginas do relatório....</h2></center>')
+     .setWidth(500)
+    .setHeight(100)
+  SpreadsheetApp.getUi().showModalDialog(htmlOutput, 'Aguarde...')
+}
+
+
+// JANELAS DE AJUDA //
+
+function Janela_ajuda() {
+  var html = HtmlService.createHtmlOutputFromFile('AV-AJUDA')
+      .setWidth(600)
+      .setHeight(1000);
+  SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
+      .showModalDialog(html, 'Como importar o arquivo CSV?');
+}
+
+function Janela_totvs() {
+  var html = HtmlService.createHtmlOutputFromFile('AV-TOTVS')
+      .setWidth(500)
+      .setHeight(145);
+  SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
+      .showModalDialog(html, 'Portal Totvs');
+}
