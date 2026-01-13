@@ -1,0 +1,211 @@
+function EXE_Ordens_setoriais() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName('TOR'), true); 
+  OS_0();
+  OS_1();
+  OS_2();
+  OS_3();
+  OS_4();
+  OS_5();
+  OS_6();
+  OS_7();
+  OS_F7();
+  OS_N7();
+  OS_8();
+  OS_9();
+};
+
+
+
+function OS_0() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getRange('G2').activate();
+  spreadsheet.getCurrentCell().setValue('E0');
+  spreadsheet.getRange('H2').activate();
+  spreadsheet.getActiveSheet().setName('E0');
+  spreadsheet.getCurrentCell().setValue('PÃES');
+  spreadsheet.getRange('H3').activate();  
+  var criteria = SpreadsheetApp.newFilterCriteria()
+  .whenTextStartsWith('E0')
+  .build();
+  spreadsheet.getActiveSheet().getFilter().setColumnFilterCriteria(8, criteria);
+};
+
+function OS_1() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getRange('G2').activate();
+  spreadsheet.getCurrentCell().setValue('E1');
+  spreadsheet.getRange('H2').activate();
+  spreadsheet.getActiveSheet().setName('E1');
+  spreadsheet.getCurrentCell().setValue('TORTAS SIMPLES E CAKES');
+  var criteria = SpreadsheetApp.newFilterCriteria()
+  .whenTextStartsWith('E1')
+  .build();
+  spreadsheet.getActiveSheet().getFilter().setColumnFilterCriteria(8, criteria);
+};
+
+function OS_2() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getRange('G2').activate();
+  spreadsheet.getCurrentCell().setValue('E2');
+  spreadsheet.getRange('H2').activate();
+  spreadsheet.getActiveSheet().setName('E2');
+  spreadsheet.getCurrentCell().setValue('BOLOS');
+  spreadsheet.getRange('H3').activate();
+  var criteria = SpreadsheetApp.newFilterCriteria()
+  .whenTextStartsWith('E2')
+  .build();
+  spreadsheet.getActiveSheet().getFilter().setColumnFilterCriteria(8, criteria);
+};
+
+function OS_3() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getRange('G2').activate();
+  spreadsheet.getActiveSheet().setName('E3');
+  spreadsheet.getCurrentCell().setValue('E3');
+  spreadsheet.getRange('H2').activate();
+  spreadsheet.getCurrentCell().setValue('TORTAS SEM LEITE');
+  spreadsheet.getRange('H3').activate();
+  var criteria = SpreadsheetApp.newFilterCriteria()
+  .whenTextStartsWith('E3')
+  .build();
+  spreadsheet.getActiveSheet().getFilter().setColumnFilterCriteria(8, criteria);
+};
+
+function OS_4() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getRange('G2').activate();
+  spreadsheet.getActiveSheet().setName('E4');
+  spreadsheet.getCurrentCell().setValue('E4');
+  spreadsheet.getRange('H2').activate();
+  spreadsheet.getCurrentCell().setValue('DOCES ESPECIAIS');
+  spreadsheet.getRange('H3').activate();
+  var criteria = SpreadsheetApp.newFilterCriteria()
+  .whenTextStartsWith('E4')
+  .build();
+  spreadsheet.getActiveSheet().getFilter().setColumnFilterCriteria(8, criteria);
+};
+
+function OS_5() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getRange('G2').activate();
+  spreadsheet.getActiveSheet().setName('E5');
+  spreadsheet.getCurrentCell().setValue('E5');
+  spreadsheet.getRange('H2').activate();
+  spreadsheet.getCurrentCell().setValue('DOCES CLASSICOS');
+  spreadsheet.getRange('H3').activate();
+  var criteria = SpreadsheetApp.newFilterCriteria()
+  .whenTextStartsWith('E5')
+  .build();
+  spreadsheet.getActiveSheet().getFilter().setColumnFilterCriteria(8, criteria);
+};
+
+function OS_6() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getRange('G2').activate();
+  spreadsheet.getActiveSheet().setName('E6');
+  spreadsheet.getCurrentCell().setValue('E6');
+  spreadsheet.getRange('H2').activate();
+  spreadsheet.getCurrentCell().setValue('SALGADOS FRITOS');
+  spreadsheet.getRange('H3').activate();
+  var criteria = SpreadsheetApp.newFilterCriteria()
+  .whenTextStartsWith('E6')
+  .build();
+  spreadsheet.getActiveSheet().getFilter().setColumnFilterCriteria(8, criteria);
+};
+
+function OS_7() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getRange('G2').activate();
+  spreadsheet.getActiveSheet().setName('E7');
+  spreadsheet.getCurrentCell().setValue('E7');
+  spreadsheet.getRange('H2').activate();
+  spreadsheet.getCurrentCell().setValue('SALGADOS ASSADOS (MASSA PODRE)');
+  spreadsheet.getActiveRangeList().setWrapStrategy(SpreadsheetApp.WrapStrategy.CLIP);
+  spreadsheet.getRange('H3').activate();
+  var criteria = SpreadsheetApp.newFilterCriteria()
+  .whenTextStartsWith('E7')
+  .build();
+  spreadsheet.getActiveSheet().getFilter().setColumnFilterCriteria(8, criteria);
+};
+
+function OS_F7() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getRange('G2').activate();
+  spreadsheet.getActiveSheet().setName('EF7');
+  spreadsheet.getCurrentCell().setValue('EF7');
+  spreadsheet.getRange('H2').activate();
+  spreadsheet.getCurrentCell().setValue('SALGADOS ASSADOS (FOLHADOS)');
+  spreadsheet.getRange('H3').activate();
+  var criteria = SpreadsheetApp.newFilterCriteria()
+  .whenTextStartsWith('EF7')
+  .build();
+  spreadsheet.getActiveSheet().getFilter().setColumnFilterCriteria(8, criteria);
+};
+
+function OS_N7() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getRange('G2').activate();
+  spreadsheet.getActiveSheet().setName('EN7');
+  spreadsheet.getCurrentCell().setValue('EN7');
+  spreadsheet.getRange('H2').activate();
+  spreadsheet.getCurrentCell().setValue('TORTA SALGADA EMPADÃO');
+  spreadsheet.getRange('H3').activate();
+  var criteria = SpreadsheetApp.newFilterCriteria()
+  .whenTextStartsWith('EN7')
+  .build();
+  spreadsheet.getActiveSheet().getFilter().setColumnFilterCriteria(8, criteria);
+};
+
+
+function OS_8() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getRange('G2').activate();
+  spreadsheet.getActiveSheet().setName('E8');
+  spreadsheet.getCurrentCell().setValue('E8');
+  spreadsheet.getRange('H2').activate();
+  spreadsheet.getCurrentCell().setValue('SALGADOS ASSADOS, PIZZA E SANDUICHE');
+  spreadsheet.getRange('H3').activate();
+  var criteria = SpreadsheetApp.newFilterCriteria()
+  .whenTextStartsWith('E8')
+  .build();
+  spreadsheet.getActiveSheet().getFilter().setColumnFilterCriteria(8, criteria);
+};
+
+function OS_9() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('H3').activate();
+  spreadsheet.duplicateActiveSheet();
+  spreadsheet.getRange('G2').activate();
+  spreadsheet.getActiveSheet().setName('E9');
+  spreadsheet.getCurrentCell().setValue('E9');
+  spreadsheet.getRange('H2').activate();
+  spreadsheet.getCurrentCell().setValue('BOLOS DE CASAMENTO');
+  spreadsheet.getRange('H3').activate();
+  var criteria = SpreadsheetApp.newFilterCriteria()
+  .whenTextStartsWith('E9')
+  .build();
+  spreadsheet.getActiveSheet().getFilter().setColumnFilterCriteria(8, criteria);
+};
